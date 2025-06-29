@@ -1,7 +1,8 @@
 {
   "name": "codermahidul/iconpicker",
-  "description": "FontAwesome Icon Picker Blade component for Laravel 12",
+  "description": "FontAwesome Icon Picker Blade component for Laravel 12 by Mahidul Islam",
   "type": "library",
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "Codermahidul\\IconPicker\\": "src/"
