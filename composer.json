@@ -1,0 +1,21 @@
+{
+  "name": "codermahidul/iconpicker",
+  "description": "FontAwesome Icon Picker Blade component for Laravel 12",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "Codermahidul\\IconPicker\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Codermahidul\\IconPicker\\IconPickerServiceProvider"
+      ]
+    }
+  },
+  "require": {
+    "php": "^8.2",
+    "illuminate/support": "^12.0"
+  }
+}

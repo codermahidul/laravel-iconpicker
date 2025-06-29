@@ -1,0 +1,9 @@
+[
+  {"class": "fas fa-user", "label": "User", "keywords": ["account", "profile"]},
+  {"class": "fas fa-heart", "label": "Heart", "keywords": ["love", "like"]},
+  {"class": "far fa-star", "label": "Star", "keywords": ["favorite", "rate"]},
+  {"class": "fab fa-github", "label": "GitHub", "keywords": ["code", "repository"]},
+  {"class": "fas fa-camera", "label": "Camera", "keywords": ["photo", "media"]},
+  {"class": "fab fa-facebook", "label": "Facebook", "keywords": ["social", "network"]},
+  {"class": "fas fa-search", "label": "Search", "keywords": ["find", "magnify"]}
+]
