@@ -1,6 +1,6 @@
 @php
-    //Icon file path
-    $icons = json_decode(file_get_contents(__DIR__ . '/../../icon-list.json'), true);
+    $iconFile = __DIR__ . '/../../../../icon-list.json';
+    $icons = file_exists($iconFile) ? json_decode(file_get_contents($iconFile), true) : [];
 @endphp
 
 <div class="position-relative d-inline-block" style="width: 100%;">
