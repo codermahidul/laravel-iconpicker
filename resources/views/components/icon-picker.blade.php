@@ -1,5 +1,5 @@
 @php
-    $icons = json_decode(file_get_contents(base_path('packages/codermahidul/iconpicker/icon-list.json')), true);
+    $icons = json_decode(file_get_contents(__DIR__ . '/../../icon-list.json'), true);
 @endphp
 
 <div class="position-relative d-inline-block" style="width: 100%;">
