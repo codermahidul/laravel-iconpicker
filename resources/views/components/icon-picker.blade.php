@@ -2,59 +2,81 @@
     $icons = json_decode(file_get_contents(base_path('packages/codermahidul/iconpicker/icon-list.json')), true);
 @endphp
 
-<div>
-    <div class="input-group mb-2">
-        <input type="text" class="form-control" id="{{ $name }}" name="{{ $name }}" value="{{ $value }}" readonly>
-        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#iconPickerModal">
-            <i id="selectedIconPreview" class="{{ $value ?? 'fas fa-icons' }}"></i>
-        </button>
-    </div>
+<div class="position-relative d-inline-block" style="width: 100%;">
+    <input type="text"
+           id="icon-picker-input"
+           name="icon"
+           class="form-control"
+           placeholder="Choose icon..."
+           readonly
+           style="cursor: pointer;">
 
-    <div class="modal fade" id="iconPickerModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Choose Icon</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div id="iconDropdown" class="dropdown-menu show p-3 shadow border position-absolute w-100" style="max-height: 300px; overflow-y: auto; display: none; z-index: 1050;">
+        <input type="text" class="form-control mb-2" id="iconSearch" placeholder="Search icons...">
+
+        <div class="row row-cols-6 g-2" id="iconList">
+            @foreach($icons as $icon)
+                <div class="col icon-option text-center" data-icon="{{ $icon['class'] }}" data-keywords="{{ strtolower($icon['label']) }} {{ implode(' ', $icon['keywords']) }}">
+                    <i class="{{ $icon['class'] }}"></i>
                 </div>
-                <div class="modal-body">
-                    <input class="form-control mb-3" type="text" id="iconSearchInput" placeholder="Search icons...">
-                    <div class="row row-cols-8 g-3" id="iconGrid">
-                        @foreach($icons as $icon)
-                            <div class="icon-wrapper" data-keywords="{{ strtolower(implode(' ', $icon['keywords'])) }} {{ strtolower($icon['label']) }}">
-                                <button class="btn btn-outline-dark w-100 icon-btn" data-icon="{{ $icon['class'] }}">
-                                    <i class="{{ $icon['class'] }}"></i>
-                                </button>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </div>
 
 @push('scripts')
 <script>
-    const modal = document.getElementById('iconPickerModal');
-    modal.addEventListener('shown.bs.modal', () => {
-        document.getElementById('iconSearchInput').focus();
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('icon-picker-input');
+    const dropdown = document.getElementById('iconDropdown');
+    const searchInput = document.getElementById('iconSearch');
+
+    input.addEventListener('focus', function () {
+        dropdown.style.display = 'block';
+        searchInput.focus();
     });
 
-    document.querySelectorAll('.icon-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const icon = this.dataset.icon;
-            document.getElementById('{{ $name }}').value = icon;
-            document.getElementById('selectedIconPreview').className = icon;
-            bootstrap.Modal.getInstance(modal).hide();
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.position-relative')) {
+            dropdown.style.display = 'none';
+        }
+    });
+
+    document.querySelectorAll('.icon-option').forEach(option => {
+        option.addEventListener('click', function () {
+            const selected = this.dataset.icon;
+            input.value = selected;
+            dropdown.style.display = 'none';
         });
     });
 
-    document.getElementById('iconSearchInput').addEventListener('input', function () {
+    searchInput.addEventListener('keyup', function () {
         const term = this.value.toLowerCase();
-        document.querySelectorAll('#iconGrid .icon-wrapper').forEach(wrapper => {
-            wrapper.style.display = wrapper.dataset.keywords.includes(term) ? 'block' : 'none';
+        document.querySelectorAll('.icon-option').forEach(option => {
+            const match = option.dataset.keywords.includes(term);
+            option.style.display = match ? 'block' : 'none';
         });
     });
+});
 </script>
 @endpush
+
+
+@push('styles')
+<style>
+.icon-option {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+.icon-option:hover {
+    border-color: #0d6efd;
+    background-color: #e9f5ff;
+}
+.icon-option i {
+    font-size: 20px;
+}
+</style>
+@endpush
+
