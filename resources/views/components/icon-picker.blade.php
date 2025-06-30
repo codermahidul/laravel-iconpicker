@@ -1,4 +1,5 @@
 @php
+    //Icon file path
     $icons = json_decode(file_get_contents(__DIR__ . '/../../icon-list.json'), true);
 @endphp
 
